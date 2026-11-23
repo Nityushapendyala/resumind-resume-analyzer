@@ -20,6 +20,12 @@ An intelligent resume analysis platform that helps job seekers evaluate their re
 - Dashboard with analytics
 - Resume analysis history
 - PDF analysis report download
+- ## 📸 Application Screenshots
+- ### Dashboard
+![Resumind Dashboard](docs/Screenshot%202026-11-23%20123222.png)
+
+### Resume Analyzer
+![Resume Analyzer](docs/Screenshot%202026-11-23%20123237.png)
 
 ## 🛠️ Tech Stack
 
