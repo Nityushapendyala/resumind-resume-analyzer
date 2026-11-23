@@ -10,16 +10,30 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 # Locate the project root directory
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-# Load environment variables
+# Load environment variables from the project root
 ENV_FILE = PROJECT_ROOT / ".env"
 load_dotenv(ENV_FILE)
 
-# Get database URL
+# Get Neon PostgreSQL connection URL
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
     raise ValueError(
         f"DATABASE_URL is missing. Check your .env file at {ENV_FILE}"
+    )
+
+# Explicitly use Psycopg 3 with SQLAlchemy
+if DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgresql://",
+        "postgresql+psycopg://",
+        1
+    )
+elif DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgres://",
+        "postgresql+psycopg://",
+        1
     )
 
 # Create database engine
@@ -42,7 +56,6 @@ Base = declarative_base()
 # FastAPI database dependency
 def get_db():
     db = SessionLocal()
-
     try:
         yield db
     finally:
